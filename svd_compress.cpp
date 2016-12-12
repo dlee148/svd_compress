@@ -38,16 +38,16 @@ int main(int argc, char** argv) {
 	}
 
 
-	if (originalImage._height != originalImage._width) {
-		std::cout << "Currently only functional for square images." << std::endl;
-		return 0;
-	}
+//	if (originalImage._height != originalImage._width) {
+//		std::cout << "Currently only functional for square images." << std::endl;
+//		return 0;
+//	}
 
 	compressionFactor = floor((((double)compressionFactor / (double)100) * originalImage._height));
 
 	CImg<> U, S_COL, V, res;
 	originalImage.SVD(U, S_COL, V);
-	CImg<> S(U._height, U._width, 1, 1);
+	CImg<> S(V._width, U._width, 1, 1);
 
 	for (int i = 0; i < S_COL._height - compressionFactor; i++) {
 		S(i, i, 0, 0) = S_COL(0, i, 0, 0);
