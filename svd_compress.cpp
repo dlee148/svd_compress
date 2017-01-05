@@ -52,20 +52,22 @@ int main(int argc, char** argv) {
 
 	if (originalImage._spectrum == BLACK_AND_WHITE) {
 		res = U * S * (V.transpose());
-		res.save(newImgFile.c_str());
-		printCompression(imgFile, newImgFile);
-		std::remove(newImgFile.c_str());
 	}
 	else if (originalImage._spectrum == COLOR) {
+		res.assign(originalImage._width, originalImage._height, 1, 3);
 		CImg<> U_tmp, tmp;
 		for (int i = 0; i < COLOR; i++) {
 			U_tmp = U.get_channel(i);
 			tmp = U_tmp * S * (V.transpose());
-			cimg_forXY(S, x, y) {
-				res(x, y, 0, i) = tmp(x, y, 0, i);
+			cimg_forXY(tmp, x, y) {
+				res(x, y, 0, i) = tmp(x, y, 0, 0);
 			}
 		}
 	}
+	
+	res.save(newImgFile.c_str());
+	printCompression(imgFile, newImgFile);
+	std::remove(newImgFile.c_str());
 
 	CImgDisplay main_disp(originalImage, "Original Image");
 	CImgDisplay compressed_disp(res, "Compressed Image");
