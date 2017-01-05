@@ -35,6 +35,7 @@ ehthumbs.db
 Thumbs.db
 
 *.pgm
+*.ppm
 *.xcodeproj
 DerivedData
 *.pdf
